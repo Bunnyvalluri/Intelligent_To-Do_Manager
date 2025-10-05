@@ -1,0 +1,17 @@
+[
+    {
+        "name": "Running",
+        "category": "running for 30 mins",
+        "status": "Completed"
+    },
+    {
+        "name": "Study",
+        "category": "Science Concept",
+        "status": "In Progress"
+    },
+    {
+        "name": "Eating ",
+        "category": "Fav Food",
+        "status": "Pending"
+    }
+]
