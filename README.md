@@ -27,8 +27,8 @@
 ## 📁 File Structure
 tasktact/
 │
-├── tasktact.py         # Main application file
-├── tasks.json          # Auto-generated task storage
+├── tasktact.py         # Main application file.
+├── tasks.json          # Auto-generated task storage.
 
 ---
 
