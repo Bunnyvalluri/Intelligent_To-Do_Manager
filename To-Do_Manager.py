@@ -1,5 +1,3 @@
-# TaskTact - Intelligent To-Do Manager
-
 import tkinter as tk
 from tkinter import ttk, messagebox
 import json, os
@@ -41,9 +39,9 @@ def add_task():
         name_var.set("")
         category_var.set("")
         status_var.set("Pending")
-        messagebox.showinfo("Success", f"Task '{name}' added!")
+        messagebox.showinfo("Success", f"✅ Task '{name}' added!")
     else:
-        messagebox.showwarning("Missing Info", "Task name is required.")
+        messagebox.showwarning("Missing Info", "❌ Task name is required.")
 
 def delete_task():
     selected = task_list.selection()
@@ -52,9 +50,9 @@ def delete_task():
         removed = tasks.pop(index)
         save_tasks(tasks)
         update_task_list()
-        messagebox.showinfo("Deleted", f"Task '{removed['name']}' deleted.")
+        messagebox.showinfo("Deleted", f"🗑️ Task '{removed['name']}' deleted.")
     else:
-        messagebox.showwarning("No Selection", "Select a task to delete.")
+        messagebox.showwarning("No Selection", "❌ Select a task to delete.")
 
 def update_task():
     selected = task_list.selection()
@@ -72,9 +70,9 @@ def update_task():
         name_var.set("")
         category_var.set("")
         status_var.set("Pending")
-        messagebox.showinfo("Updated", "Task updated successfully.")
+        messagebox.showinfo("Updated", "✅ Task updated successfully.")
     else:
-        messagebox.showwarning("No Selection", "Select a task to update.")
+        messagebox.showwarning("No Selection", "❌ Select a task to update.")
 
 def filter_tasks():
     selected_cat = filter_category_var.get()
@@ -100,64 +98,72 @@ def show_summary():
 # GUI setup
 root = tk.Tk()
 root.title("✨ TaskTact - Intelligent To-Do Manager")
-root.geometry("750x550")
-root.configure(bg="#f0f4f7")
+root.geometry("850x600")
+root.configure(bg="#eaf6fc")
 
 style = ttk.Style()
 style.theme_use("clam")
-style.configure("Treeview.Heading", font=("Segoe UI", 10, "bold"))
-style.configure("Treeview", font=("Segoe UI", 10), rowheight=25)
+style.configure("Treeview.Heading", font=("Segoe UI", 11, "bold"), background="#3498db", foreground="white")
+style.configure("Treeview", font=("Segoe UI", 10), rowheight=28)
+style.configure("TButton", font=("Segoe UI", 10), padding=6)
+style.map("TButton", background=[("active", "#2980b9")])
 
-title_label = tk.Label(root, text="TaskTact 🧠", font=("Segoe UI", 20, "bold"), bg="#f0f4f7", fg="#333")
+# Title
+title_label = tk.Label(root, text="🧠 TaskTact - Intelligent To-Do Manager", font=("Segoe UI", 22, "bold"), bg="#eaf6fc", fg="#2c3e50")
 title_label.pack(pady=10)
 
-input_frame = ttk.LabelFrame(root, text="Add / Update Task", padding=10)
-input_frame.pack(fill="x", padx=10, pady=10)
+# Input Frame
+input_frame = tk.LabelFrame(root, text="📝 Add / Update Task", font=("Segoe UI", 11, "bold"), bg="#d6eaf8", padx=10, pady=10)
+input_frame.pack(fill="x", padx=20, pady=10)
 
 name_var = tk.StringVar()
 category_var = tk.StringVar()
 status_var = tk.StringVar(value="Pending")
 
-ttk.Label(input_frame, text="Name:").grid(row=0, column=0, padx=5, pady=5, sticky="e")
-ttk.Entry(input_frame, textvariable=name_var, width=40).grid(row=0, column=1, padx=5, pady=5)
+tk.Label(input_frame, text="Name:", font=("Segoe UI", 10), bg="#d6eaf8").grid(row=0, column=0, padx=5, pady=5, sticky="e")
+tk.Entry(input_frame, textvariable=name_var, font=("Segoe UI", 10), width=35).grid(row=0, column=1, padx=5, pady=5)
 
-ttk.Label(input_frame, text="Category:").grid(row=1, column=0, padx=5, pady=5, sticky="e")
-ttk.Entry(input_frame, textvariable=category_var, width=40).grid(row=1, column=1, padx=5, pady=5)
+tk.Label(input_frame, text="Category:", font=("Segoe UI", 10), bg="#d6eaf8").grid(row=1, column=0, padx=5, pady=5, sticky="e")
+tk.Entry(input_frame, textvariable=category_var, font=("Segoe UI", 10), width=35).grid(row=1, column=1, padx=5, pady=5)
 
-ttk.Label(input_frame, text="Status:").grid(row=2, column=0, padx=5, pady=5, sticky="e")
-ttk.Combobox(input_frame, textvariable=status_var, values=["Pending", "In Progress", "Completed"], width=37).grid(row=2, column=1, padx=5, pady=5)
+tk.Label(input_frame, text="Status:", font=("Segoe UI", 10), bg="#d6eaf8").grid(row=2, column=0, padx=5, pady=5, sticky="e")
+ttk.Combobox(input_frame, textvariable=status_var, values=["Pending", "In Progress", "Completed"], width=33).grid(row=2, column=1, padx=5, pady=5)
 
-ttk.Button(input_frame, text="Add Task", command=add_task).grid(row=3, column=0, padx=5, pady=10)
-ttk.Button(input_frame, text="Update Task", command=update_task).grid(row=3, column=1, padx=5, pady=10, sticky="w")
+ttk.Button(input_frame, text="➕ Add Task", command=add_task).grid(row=3, column=0, padx=5, pady=10)
+ttk.Button(input_frame, text="✏️ Update Task", command=update_task).grid(row=3, column=1, padx=5, pady=10, sticky="w")
 
-filter_frame = ttk.LabelFrame(root, text="Filter & Summary", padding=10)
-filter_frame.pack(fill="x", padx=10, pady=5)
+# Filter Frame
+filter_frame = tk.LabelFrame(root, text="🔍 Filter & Summary", font=("Segoe UI", 11, "bold"), bg="#d6eaf8", padx=10, pady=10)
+filter_frame.pack(fill="x", padx=20, pady=5)
 
 filter_category_var = tk.StringVar(value="All")
 filter_status_var = tk.StringVar(value="All")
 
-ttk.Label(filter_frame, text="Category:").grid(row=0, column=0, padx=5)
+tk.Label(filter_frame, text="Category:", font=("Segoe UI", 10), bg="#d6eaf8").grid(row=0, column=0, padx=5)
 filter_category = ttk.Combobox(filter_frame, textvariable=filter_category_var, values=["All"], width=20)
 filter_category.grid(row=0, column=1, padx=5)
 
-ttk.Label(filter_frame, text="Status:").grid(row=0, column=2, padx=5)
+tk.Label(filter_frame, text="Status:", font=("Segoe UI", 10), bg="#d6eaf8").grid(row=0, column=2, padx=5)
 ttk.Combobox(filter_frame, textvariable=filter_status_var, values=["All", "Pending", "In Progress", "Completed"], width=20).grid(row=0, column=3, padx=5)
 
 ttk.Button(filter_frame, text="Apply Filter", command=filter_tasks).grid(row=0, column=4, padx=5)
-ttk.Button(filter_frame, text="Show Summary", command=show_summary).grid(row=0, column=5, padx=5)
+ttk.Button(filter_frame, text="📊 Show Summary", command=show_summary).grid(row=0, column=5, padx=5)
 
-list_frame = ttk.LabelFrame(root, text="Your Tasks", padding=10)
-list_frame.pack(fill="both", expand=True, padx=10, pady=5)
+# Task List Frame
+list_frame = tk.LabelFrame(root, text="📋 Your Tasks", font=("Segoe UI", 11, "bold"), bg="#d6eaf8", padx=10, pady=10)
+list_frame.pack(fill="both", expand=True, padx=20, pady=10)
 
-columns = ("#", "Name", "Description", "Status")
+columns = ("#", "Name", "Category", "Status")
 task_list = ttk.Treeview(list_frame, columns=columns, show="headings")
 for col in columns:
     task_list.heading(col, text=col)
     task_list.column(col, anchor="center")
 task_list.pack(fill="both", expand=True)
 
-ttk.Button(root, text="Delete Selected Task", command=delete_task).pack(pady=10)
+# Delete Button
+ttk.Button(root, text="🗑️ Delete Selected Task", command=delete_task).pack(pady=10)
 
+# Load and display tasks
 tasks = load_tasks()
 update_task_list()
 
